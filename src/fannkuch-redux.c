@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 int main(int argc, char **argv) {
-  const int n = atoi(argv[1]);
+  const int n = argc > 1 ? atoi(argv[1]) : 12;
 
   int factorial_Lookup_Table[n + 1];
   factorial_Lookup_Table[0] = 1;

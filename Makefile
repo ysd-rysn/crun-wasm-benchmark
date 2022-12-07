@@ -1,10 +1,13 @@
-.PHONY: configure build
+.PHONY: configure build bench clean
 
 configure:
-	./configure.sh
+	./scripts/configure.sh
 
 build:
-	./build.sh	
+	./scripts/build.sh	
+
+bench:
+	./scripts/benchmark.sh
 
 clean:
 	rm -rf build

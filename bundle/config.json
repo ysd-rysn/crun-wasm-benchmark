@@ -138,7 +138,8 @@
 		"org.opencontainers.image.exposedPorts": "",
 		"org.opencontainers.image.os": "linux",
 		"org.opencontainers.image.stopSignal": "",
-		"module.wasm.image/variant": "compat"
+		"module.wasm.image/variant": "compat",
+		"module.wasm.image/multiple": "true"
 	},
 	"linux": {
 		"resources": {

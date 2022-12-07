@@ -76,7 +76,7 @@ static inline uint64_t mand64(const doublex2 init_r[4], const doublex2 init_i) {
 
 int main(int argc, char **argv) {
   const uint64_t image_Width_And_Height =
-      (__builtin_expect(atoi(argv[1]), 15000) + 7) / 8 * 8;
+      (__builtin_expect(argc > 1 ? atoi(argv[1]) : 15000, 15000) + 7) / 8 * 8;
 
   uint8_t *const pixels =
       malloc(image_Width_And_Height * image_Width_And_Height / 8);

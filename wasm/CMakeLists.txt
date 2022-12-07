@@ -5,10 +5,7 @@ function(add_emcc_executable name)
   endforeach()
 
   add_custom_target(emcc-${name} ALL
-	emcc -g -Oz -s STANDALONE_WASM -s INITIAL_MEMORY=32MB -s MAXIMUM_MEMORY=4GB
-    -mmutable-globals
-    -mnontrapping-fptoint
-    -msign-ext
+	emcc -Oz -s INITIAL_MEMORY=4000MB
     ${listed} -o ${name}
     BYPRODUCTS ${name}
     DEPENDS ${listed}
@@ -21,10 +18,6 @@ add_emcc_executable(fannkuch-redux-c.wasm
 
 add_emcc_executable(nbody-c.wasm
   ../src/nbody.c
-)
-
-add_emcc_executable(nbody-cpp.wasm
-  ../src/nbody.cpp
 )
 
 add_emcc_executable(mandelbrot-c.wasm

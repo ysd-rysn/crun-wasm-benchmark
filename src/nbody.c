@@ -114,7 +114,7 @@ static void output_Energy(body bodies[]) {
 int main(int argc, char *argv[]) {
   offset_Momentum(solar_Bodies);
   output_Energy(solar_Bodies);
-  for (int n = atoi(argv[1]); n--; advance(solar_Bodies))
+  for (int n = argc > 1 ? atoi(argv[1]) : 50000000; n--; advance(solar_Bodies))
     ;
   output_Energy(solar_Bodies);
 }

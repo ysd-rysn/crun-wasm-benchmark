@@ -47,10 +47,11 @@ static uint32_t compute_Tree_Checksum(const tree_node *const root_Node) {
 }
 
 int main(int argc, char *argv[]) {
+  uint32_t n = argc > 1 ? atoi(argv[1]) : 21;
   const uint32_t minimum_Tree_Depth = 4,
-                 maximum_Tree_Depth = atoi(argv[1]) < minimum_Tree_Depth + 2
+                 maximum_Tree_Depth = n < minimum_Tree_Depth + 2
                                           ? minimum_Tree_Depth + 2
-                                          : atoi(argv[1]);
+                                          : n;
   tree_node *stretch_Tree = create_Tree(maximum_Tree_Depth + 1);
   printf("stretch tree of depth %" PRIu32 "\t check: %" PRIu32 "\n",
          maximum_Tree_Depth + 1, compute_Tree_Checksum(stretch_Tree));
