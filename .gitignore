@@ -1,6 +1,8 @@
 benchmark/
 build/
+bin/
 wasm/Makefile
+native/Makefile
 crun/
 emsdk/
 

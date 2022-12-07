@@ -10,4 +10,4 @@ bench:
 	./scripts/benchmark.sh
 
 clean:
-	rm -rf build
+	rm -rf build bin
