@@ -1,5 +1,9 @@
 #!/bin/bash
 
+function install_utils() {
+	sudo apt install -y jq
+}
+
 function install_emscripten() {
 	sudo apt install -y llvm clang lld lldb
 
@@ -49,7 +53,10 @@ function install_crun() {
 }
 
 
-sudo apt update
-install_emscripten
-install_wasmedge
-install_crun
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+	sudo apt update
+	install_utils
+	install_emscripten
+	install_wasmedge
+	install_crun
+fi

@@ -1,15 +1,16 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
 set -euo pipefail
 IFS=$'\n\t'
 
 WD=$PWD
 NAME=(
-	nbody-c
-	fannkuch-redux-c
-	mandelbrot-c
-	mandelbrot-simd-c
-	binary-trees-c
-	fasta-c
+	nbody
+	fannkuch-redux
+	mandelbrot
+	mandelbrot-simd
+	binary-trees
+	fasta
 )
 
 
@@ -20,7 +21,6 @@ function compile_wasm() {
 		for ((i=0; i<"${#NAME[@]}"; ++i)); do
 			echo "Compile ${NAME[i]}.wasm" 
 			wasmedgec $WD/build/wasm/${NAME[i]}.wasm $WD/build/aot_wasm/${NAME[i]}-aot.wasm
-			#cp $WD/build/aot_wasm/${NAME[i]}-aot.wasm $WD/bundle/rootfs
 		done
 	fi
 }
@@ -31,5 +31,7 @@ function invoke_cmake() {
 }
 
 
-invoke_cmake
-compile_wasm
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+	invoke_cmake
+	compile_wasm
+fi

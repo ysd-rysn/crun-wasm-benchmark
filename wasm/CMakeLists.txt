@@ -12,26 +12,26 @@ function(add_emcc_executable name)
   )
 endfunction()
 
-add_emcc_executable(fannkuch-redux-c.wasm
+add_emcc_executable(fannkuch-redux.wasm
   ../src/fannkuch-redux.c
 )
 
-add_emcc_executable(nbody-c.wasm
+add_emcc_executable(nbody.wasm
   ../src/nbody.c
 )
 
-add_emcc_executable(mandelbrot-c.wasm
+add_emcc_executable(mandelbrot.wasm
   ../src/mandelbrot.c
 )
 
-add_emcc_executable(mandelbrot-simd-c.wasm
+add_emcc_executable(mandelbrot-simd.wasm
   ../src/mandelbrot-simd.c
 )
 
-add_emcc_executable(binary-trees-c.wasm
+add_emcc_executable(binary-trees.wasm
   ../src/binary-trees.c
 )
 
-add_emcc_executable(fasta-c.wasm
+add_emcc_executable(fasta.wasm
   ../src/fasta.c
 )
