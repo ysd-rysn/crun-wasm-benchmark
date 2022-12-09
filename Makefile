@@ -4,16 +4,16 @@ usage:
 	@echo 'Usage is written in README.'
 
 configure:
-	./scripts/configure.sh
+	@./scripts/configure.sh
 
 build:
-	./scripts/build.sh	
+	@./scripts/build.sh	
 
 benchmark:
-	./scripts/benchmark.sh
+	@./scripts/benchmark.sh
 
 clean:
-	rm -ri build bin benchmark
+	@rm -ri build bin benchmark
 
 test_scripts:
-	./scripts/benchmark_test.sh
+	@./scripts/benchmark_test.sh

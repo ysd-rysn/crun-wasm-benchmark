@@ -61,9 +61,8 @@ function prepare_bundle_test() {
 
 
 # Run tests
-echo '' # New line
 prepare_rootfs_test
-echo ''
+echo '' # New line
 prepare_config_json_test
 echo ''
 prepare_bundle_test
