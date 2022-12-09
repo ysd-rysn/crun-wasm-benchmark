@@ -1,4 +1,7 @@
-.PHONY: configure build bench clean test_scripts
+.PHONY: usage configure build benchmark clean test_scripts
+
+usage:
+	@echo 'Usage is written in README.'
 
 configure:
 	./scripts/configure.sh
