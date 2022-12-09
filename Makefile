@@ -6,11 +6,11 @@ configure:
 build:
 	./scripts/build.sh	
 
-bench:
+benchmark:
 	./scripts/benchmark.sh
 
 clean:
-	rm -rf build bin
+	rm -ri build bin benchmark
 
 test_scripts:
 	./scripts/benchmark_test.sh

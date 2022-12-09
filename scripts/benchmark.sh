@@ -1,24 +1,20 @@
 #!/bin/bash
 
+BUNDLE_DIR=$PWD/bundle
+BUILD_DIR=$PWD/build
+BIN_DIR=$PWD/bin
 NAME=(
     nbody
     fannkuch-redux
     binary-trees
 )
-
-ARGS=(
-    50000000
-    12
-    21
-)
-
-BUNDLE_DIR=$PWD/bundle
-BUILD_DIR=$PWD/build
+crun=$BIN_DIR/crun
+crun_with_multiple_wasm=$BIN_DIR/crun-with-multiple-wasm
 
 
 # Prepare rootfs.
 # Args:
-# 	benchmark program name
+# 	Benchmark program name
 function prepare_rootfs() {
 	pushd $BUNDLE_DIR/rootfs
 	for name in "${NAME[@]}"; do
@@ -34,8 +30,8 @@ function prepare_rootfs() {
 
 # Prepare config.json.
 # Args:
-# 	benchmark program name
-# 	number of programs to run in benchmark
+# 	Benchmark program name
+# 	Number of programs to run in benchmark
 function prepare_config_json() {
 	pushd $BUNDLE_DIR
 	cat config.json | jq '.process.args |= []' > tmp.json
@@ -52,25 +48,31 @@ function prepare_config_json() {
 
 # Prepare bundle.
 # Args:
-# 	benchmark program name
-# 	number of programs to run in benchmark
+# 	Benchmark program name
+# 	Number of programs to run in benchmark
 function prepare_bundle() {
-	cp_wasm_to_rootfs $1
+	prepare_rootfs $1
 	prepare_config_json $1 $2
 }
 
 function benchmark_crun() {
 	echo
+	# Run 5 programs
+	# Run 10 programs
+	# Run 15 programs
 }
 
 
 function benchmark_crun_with_multiple_wasm() {
 	echo
+	# Run 5 programs
+	# Run 10 programs
+	# Run 15 programs
 }
 
 # Print benchmark result.
 # Args:
-# 	log file
+# 	Log file
 function print_result() {
 	echo
 }

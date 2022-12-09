@@ -24,5 +24,7 @@ $ make build
 
 3. Run benchmark.
 ```
-$ make bench
+$ make benchmark
 ```
+
+Log files are generated in `benchmark`.
