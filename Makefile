@@ -1,7 +1,7 @@
 .PHONY: usage configure build benchmark_single_wasm benchmark_multiple_wasm clean test_scripts
 
 usage:
-	@echo 'Usage is written in README.'
+	@echo 'See README for usage.'
 
 configure:
 	@./scripts/configure.sh
