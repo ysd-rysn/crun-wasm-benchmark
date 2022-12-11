@@ -24,14 +24,14 @@ $ make build
 
 3. Run benchmark.
 
-  1. Single wasm (N is number of times to run the benchmark.)
-  ```
-  $ make benchmark_single_wasm N=1
-  ```
+    1. Single wasm (N is number of times to run the benchmark.)
+    ```
+    $ make benchmark_single_wasm N=1
+    ```
 
-  2. Multiple wasm (N is number of times to run the benchmark.)
-  ```
-  $ make benchmark_multiple_wasm N=1
-  ```
+    2. Multiple wasm (N is number of times to run the benchmark.)
+    ```
+    $ make benchmark_multiple_wasm N=1
+    ```
 
 Log files are generated in `benchmark`.
