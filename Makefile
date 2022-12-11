@@ -1,4 +1,4 @@
-.PHONY: usage configure build benchmark clean test_scripts
+.PHONY: usage configure build benchmark_single_wasm benchmark_multiple_wasm clean test_scripts
 
 usage:
 	@echo 'Usage is written in README.'
@@ -9,8 +9,11 @@ configure:
 build:
 	@./scripts/build.sh	
 
-benchmark:
-	@./scripts/benchmark.sh
+benchmark_single_wasm:
+	@./scripts/benchmark.sh single_wasm
+
+benchmark_multiple_wasm:
+	@./scripts/benchmark.sh multiple_wasm
 
 clean:
 	@rm -ri build bin benchmark

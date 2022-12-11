@@ -66,5 +66,3 @@ echo '' # New line
 prepare_config_json_test
 echo ''
 prepare_bundle_test
-
-prepare_log_directory

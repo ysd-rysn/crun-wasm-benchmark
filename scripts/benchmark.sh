@@ -13,6 +13,8 @@ ARGS=(
 	12
 	21
 )
+MODE=${1:-'single_wasm'}
+TIME=${2:-1} # Number of times to run the benchmark.
 crun=$BIN_DIR/crun
 crun_with_multiple_wasm=$BIN_DIR/crun-with-multiple-wasm
 
@@ -47,7 +49,7 @@ function prepare_config_json() {
 	local wasm=/${1}-aot.wasm
 	local num=$2
 	local i
-	for i in `seq $num`; do
+	for i in `seq -w $num`; do
 		cat config.json | jq --arg v $wasm '.process.args += [$v]' > tmp.json
 		cp tmp.json config.json && rm tmp.json
 	done
@@ -87,6 +89,19 @@ function run_crun() {
 	local name=$1
 	local num=$2
 	prepare_bundle $name 1
+
+	local log_dir="$PWD/benchmark/crun/$name"
+	if [ ! -d ${log_dir}/run${num} ]; then
+		mkdir ${log_dir}/run${num}
+	fi
+	pushd $BUNDLE_DIR
+	echo "$name"
+	local i
+	for i in `seq -w $num`; do
+		/usr/bin/time -v -o "${log_dir}/run${num}/${name}_${i}_${TIME}.time" sudo "$crun_with_multiple_wasm" run ${name}-wasm-${i}
+	done
+	echo '' # New line
+	popd
 }
 
 # Args:
@@ -103,7 +118,7 @@ function run_crun_with_multiple_wasm() {
 	fi
 	pushd $BUNDLE_DIR
 	echo "$name"
-	/usr/bin/time -v -o "${log_dir}/run${num}/${name}.time" sudo "$crun_with_multiple_wasm" run ${name}-wasm
+	/usr/bin/time -v -o "${log_dir}/run${num}/${name}_${TIME}.time" sudo "$crun_with_multiple_wasm" run ${name}-wasm
 	echo '' # New line
 	popd
 }
@@ -112,11 +127,12 @@ function benchmark_crun() {
 	local name
 	for name in "${NAME[@]}"; do
 		# Run 5 programs
-		run_crun $name 5
+		#run_crun $name 5
 		# Run 10 programs
-		run_crun $name 10
+		#run_crun $name 10
 		# Run 15 programs
-		run_crun $name 15
+		#run_crun $name 15
+		run_crun $name 3
 	done
 }
 
@@ -124,11 +140,12 @@ function benchmark_crun_with_multiple_wasm() {
 	local name
 	for name in "${NAME[@]}"; do
 		# Run 5 programs
-		run_crun_with_multiple_wasm $name 5
+		#run_crun_with_multiple_wasm $name 5
 		# Run 10 programs
-		run_crun_with_multiple_wasm $name 10
+		#run_crun_with_multiple_wasm $name 10
 		# Run 15 programs
-		run_crun_with_multiple_wasm $name 15
+		#run_crun_with_multiple_wasm $name 15
+		run_crun_with_multiple_wasm $name 3
 	done
 }
 
@@ -143,6 +160,17 @@ function print_result() {
 # Run benchmark
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	prepare_log_directory
-	#benchmark_crun
-	benchmark_crun_with_multiple_wasm
+	if [ $MODE = 'single_wasm' ]; then
+		echo -e 'benchmark single wasm\n'
+		for i in `seq -w ${TIME}`; do
+			echo -e "${i} time"
+			benchmark_crun
+		done
+	elif [ $MODE = 'multiple_wasm' ]; then
+		echo -e 'benchmark multiple wasm\n'
+		for i in `seq -w ${TIME}`; do
+			echo -e "${i} time"
+			benchmark_crun_with_multiple_wasm
+		done
+	fi
 fi
