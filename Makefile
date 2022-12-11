@@ -10,10 +10,10 @@ build:
 	@./scripts/build.sh	
 
 benchmark_single_wasm:
-	@./scripts/benchmark.sh single_wasm
+	@./scripts/benchmark.sh single_wasm $(N)
 
 benchmark_multiple_wasm:
-	@./scripts/benchmark.sh multiple_wasm
+	@./scripts/benchmark.sh multiple_wasm $(N)
 
 clean:
 	@rm -ri build bin benchmark
