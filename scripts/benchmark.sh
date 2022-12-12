@@ -98,7 +98,7 @@ function run_crun() {
 	echo "$name"
 	local i
 	for i in `seq -w $num`; do
-		/usr/bin/time -v -o "${log_dir}/run${num}/${name}_${i}_${TIME}.time" sudo "$crun_with_multiple_wasm" run ${name}-wasm-${i} &
+		/usr/bin/time -v -o "${log_dir}/run${num}/${name}_${i}_${TIME}.time" sudo "$crun" run ${name}-wasm-${num}
 	done
 	echo '' # New line
 	popd > /dev/null
