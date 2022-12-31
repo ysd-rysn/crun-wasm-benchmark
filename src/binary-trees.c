@@ -2,6 +2,9 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h> // gettimeofday
+
+typedef unsigned long long ull;
 
 typedef struct tree_node {
   struct tree_node *left_Node, *right_Node;
@@ -47,6 +50,10 @@ static uint32_t compute_Tree_Checksum(const tree_node *const root_Node) {
 }
 
 int main(int argc, char *argv[]) {
+  // Get start time.
+  struct timeval tv_start, tv_end, tv_elapsed;
+  gettimeofday(&tv_start, NULL);
+
   uint32_t n = argc > 1 ? atoi(argv[1]) : 21;
   const uint32_t minimum_Tree_Depth = 4,
                  maximum_Tree_Depth = n < minimum_Tree_Depth + 2
@@ -94,6 +101,16 @@ int main(int argc, char *argv[]) {
 
   printf("long lived tree of depth %" PRIu32 " \t check: %" PRIu32 " \n",
          maximum_Tree_Depth, long_Lived_Tree_Checksum);
+
+  // Get end time.
+  gettimeofday(&tv_end, NULL);
+  // Calclate elapsed time.
+  timersub(&tv_end, &tv_start, &tv_elapsed);
+
+  // Print time.
+  printf("start time: %llu.%06llu\n", (ull)tv_start.tv_sec, (ull)tv_start.tv_usec);
+  printf("end time: %llu.%06llu\n", (ull)tv_end.tv_sec, (ull)tv_end.tv_usec);
+  printf("elapsed time: %llu.%06llu\n", (ull)tv_elapsed.tv_sec, (ull)tv_elapsed.tv_usec);
 
   return 0;
 }

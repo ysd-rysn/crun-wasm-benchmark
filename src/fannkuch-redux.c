@@ -3,8 +3,15 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h> // gettimeofday
+
+typedef unsigned long long ull;
 
 int main(int argc, char **argv) {
+  // Get start time.
+  struct timeval tv_start, tv_end, tv_elapsed;
+  gettimeofday(&tv_start, NULL);
+
   const int n = argc > 1 ? atoi(argv[1]) : 12;
 
   int factorial_Lookup_Table[n + 1];
@@ -110,6 +117,16 @@ int main(int argc, char **argv) {
   }
 
   printf("%d\nPfannkuchen(%d) = %d\n", checksum, n, maximum_Flip_Count);
+
+  // Get end time.
+  gettimeofday(&tv_end, NULL);
+  // Calclate elapsed time.
+  timersub(&tv_end, &tv_start, &tv_elapsed);
+
+  // Print time.
+  printf("start time: %llu.%06llu\n", (ull)tv_start.tv_sec, (ull)tv_start.tv_usec);
+  printf("end time: %llu.%06llu\n", (ull)tv_end.tv_sec, (ull)tv_end.tv_usec);
+  printf("elapsed time: %llu.%06llu\n", (ull)tv_elapsed.tv_sec, (ull)tv_elapsed.tv_usec);
 
   return 0;
 }

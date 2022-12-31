@@ -3,6 +3,9 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h> // gettimeofday
+
+typedef unsigned long long ull;
 
 typedef struct {
   double position[3], velocity[3], mass;
@@ -112,9 +115,23 @@ static void output_Energy(body bodies[]) {
 }
 
 int main(int argc, char *argv[]) {
+  // Get start time.
+  struct timeval tv_start, tv_end, tv_elapsed;
+  gettimeofday(&tv_start, NULL);
+
   offset_Momentum(solar_Bodies);
   output_Energy(solar_Bodies);
   for (int n = argc > 1 ? atoi(argv[1]) : 50000000; n--; advance(solar_Bodies))
     ;
   output_Energy(solar_Bodies);
+
+  // Get end time.
+  gettimeofday(&tv_end, NULL);
+  // Calclate elapsed time.
+  timersub(&tv_end, &tv_start, &tv_elapsed);
+
+  // Print time.
+  printf("start time: %llu.%06llu\n", (ull)tv_start.tv_sec, (ull)tv_start.tv_usec);
+  printf("end time: %llu.%06llu\n", (ull)tv_end.tv_sec, (ull)tv_end.tv_usec);
+  printf("elapsed time: %llu.%06llu\n", (ull)tv_elapsed.tv_sec, (ull)tv_elapsed.tv_usec);
 }
