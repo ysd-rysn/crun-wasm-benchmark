@@ -14,7 +14,8 @@ ARGS=(
 	21
 )
 MODE=${1:-'single_wasm'}
-TIME=${2:-1} # Number of times to run the benchmark.
+N=${2:-1} # Number of times to run the benchmark.
+TIME=1
 crun=$BIN_DIR/crun
 crun_with_multiple_wasm=$BIN_DIR/crun-with-multiple-wasm
 
@@ -174,16 +175,18 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	case "$MODE" in
 		'single_wasm')
 			echo -e 'benchmark single wasm\n'
-			echo -e "Run benchmark ${TIME} times\n"
-			for i in `seq -w ${TIME}`; do
+			echo -e "Run benchmark ${N} times\n"
+			for i in `seq -w ${N}`; do
+				TIME=$i
 				print_time $i
 				benchmark_crun
 			done
 			;;
 		'multiple_wasm')
 			echo -e 'benchmark multiple wasm'
-			echo -e "Run benchmark ${TIME} times\n"
-			for i in `seq -w ${TIME}`; do
+			echo -e "Run benchmark ${N} times\n"
+			for i in `seq -w ${N}`; do
+				TIME=$i
 				print_time $i
 				benchmark_crun_with_multiple_wasm
 			done
