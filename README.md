@@ -18,12 +18,12 @@ $ make build
 
     - Single wasm (N is number of times to run the benchmark.)
     ```
-    $ make benchmark_single_wasm N=1
+    $ sudo make benchmark_single_wasm N=1
     ```
 
     - Multiple wasm (N is number of times to run the benchmark.)
     ```
-    $ make benchmark_multiple_wasm N=1
+    $ sudo make benchmark_multiple_wasm N=1
     ```
 
 Log files are generated in `benchmark`.

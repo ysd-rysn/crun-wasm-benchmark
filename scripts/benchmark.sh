@@ -99,7 +99,8 @@ function run_crun() {
 	echo "$name"
 	local i
 	for i in `seq -w $num`; do
-		/usr/bin/time -v -o "${log_dir}/run${num}/${name}_${i}_${TIME}.time" sudo "$crun" run ${name}-wasm-${num}
+		/usr/bin/time -v -o "${log_dir}/run${num}/${name}_${i}_${TIME}.time" "$crun" run ${name}-wasm-${num} \
+			| egrep '(start|end|elapsed|init) time' > ${log_dir}/run${num}/${name}_${i}_${TIME}
 	done
 	echo '' # New line
 	popd > /dev/null
@@ -119,7 +120,8 @@ function run_crun_with_multiple_wasm() {
 	fi
 	pushd $BUNDLE_DIR > /dev/null
 	echo "$name"
-	/usr/bin/time -v -o "${log_dir}/run${num}/${name}_${TIME}.time" sudo "$crun_with_multiple_wasm" run ${name}-wasm
+	/usr/bin/time -v -o "${log_dir}/run${num}/${name}_${TIME}.time" "$crun_with_multiple_wasm" run ${name}-wasm \
+		| egrep '(start|end|elapsed|init) time' > ${log_dir}/run${num}/${name}_${TIME}
 	echo '' # New line
 	popd > /dev/null
 }
