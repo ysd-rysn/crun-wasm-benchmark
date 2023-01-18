@@ -53,6 +53,9 @@ function install_crun() {
 }
 
 
+# TODO: Create function to install recvtty in system wide.
+
+
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	sudo apt update
 	install_utils
