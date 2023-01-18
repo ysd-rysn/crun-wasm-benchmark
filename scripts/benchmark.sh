@@ -1,5 +1,6 @@
 #!/bin/bash
 
+HOME_DIR=$PWD
 BUNDLE_DIR=$PWD/bundle
 BUILD_DIR=$PWD/build
 BIN_DIR=$PWD/bin
@@ -83,6 +84,11 @@ function prepare_log_directory() {
 	fi
 }
 
+# Delete stopped containers.
+function prune_container() {
+	sudo crun list | grep stopped | cut -f 1 -d ' ' | xargs -I arg sudo crun delete arg
+}
+
 # Args:
 # 	Benchmark program name
 # 	Number of programs to run in benchmark
@@ -98,10 +104,26 @@ function run_crun() {
 	pushd $BUNDLE_DIR > /dev/null
 	echo "$name"
 	local i
+	local crun_pids=()
+	local recvtty_pids=()
 	for i in `seq -w $num`; do
-		/usr/bin/time -v -o "${log_dir}/run${num}/${name}_${i}_${TIME}.time" "$crun" run ${name}-wasm-${num} \
-			| egrep '(start|end|elapsed|init) time' > ${log_dir}/run${num}/${name}_${i}_${TIME}
+		recvtty --no-stdin "${HOME_DIR}/${name}_${i}_${TIME}.sock" >> "${log_dir}/run${num}/${name}_${TIME}" 2> /dev/null &
+		echo "recvtty pid: $!"
+		recvtty_pids[${#recvtty_pids[@]}]=$!
+		sleep 0.1 # NOTE: This prevents crun from being executed before the socket is created.
+
+		#/usr/bin/time -v -o "${log_dir}/run${num}/${name}_${i}_${TIME}.time" "$crun" run ${name}-wasm-${i}
+		"$crun" run --console-socket="${HOME_DIR}/${name}_${i}_${TIME}.sock" ${name}_wasm_${i}_${TIME}  >> "${log_dir}/run${num}/${name}_${TIME}" &
+		echo "crun pid: $!"
+		crun_pids[${#crun_pids[@]}]=$!
 	done
+
+	echo "crun_pids: ${crun_pids[@]}"
+	wait ${crun_pids[@]}
+
+	echo "recvtty_pids: ${recvtty_pids[@]}"
+	wait ${recvtty_pids[@]}
+
 	echo '' # New line
 	popd > /dev/null
 }
@@ -126,9 +148,16 @@ function run_crun_with_multiple_wasm() {
 	popd > /dev/null
 }
 
+# Modify this function to change the number of programs to run.
 function benchmark_crun() {
 	local name
 	for name in "${NAME[@]}"; do
+		echo -e 'Run 1 programs\n'
+		run_crun $name 1
+		echo -e 'Run 2 programs\n'
+		run_crun $name 2
+		echo -e 'Run 3 programs\n'
+		run_crun $name 3
 		echo -e 'Run 4 programs\n'
 		run_crun $name 4
 		echo -e 'Run 8 programs\n'
@@ -138,15 +167,16 @@ function benchmark_crun() {
 	done
 }
 
+# Modify this function to change the number of programs to run.
 function benchmark_crun_with_multiple_wasm() {
 	local name
 	for name in "${NAME[@]}"; do
-		echo -e 'Run 4 programs\n'
-		run_crun_with_multiple_wasm $name 4
-		echo -e 'Run 8 programs\n'
-		run_crun_with_multiple_wasm $name 8
-		echo -e 'Run 12 programs\n'
-		run_crun_with_multiple_wasm $name 12
+		echo -e 'Run 1 programs\n'
+		run_crun_with_multiple_wasm $name 1
+		echo -e 'Run 2 programs\n'
+		run_crun_with_multiple_wasm $name 2
+		echo -e 'Run 3 programs\n'
+		run_crun_with_multiple_wasm $name 3
 	done
 }
 
