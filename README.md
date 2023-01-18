@@ -14,7 +14,7 @@ $ make configure
 $ make build
 ```
 
-3. Run benchmark.
+3. Run benchmark. (NOTE: Previous results is removed)
 
     - Single wasm (N is number of times to run the benchmark.)
     ```

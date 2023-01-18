@@ -84,11 +84,6 @@ function prepare_log_directory() {
 	fi
 }
 
-# Delete stopped containers.
-function prune_container() {
-	sudo crun list | grep stopped | cut -f 1 -d ' ' | xargs -I arg sudo crun delete arg
-}
-
 # Args:
 # 	Benchmark program name
 # 	Number of programs to run in benchmark
@@ -102,7 +97,7 @@ function run_crun() {
 		mkdir ${log_dir}/run${num}
 	fi
 	pushd $BUNDLE_DIR > /dev/null
-	echo "$name"
+	echo -e "$name\n"
 	local i
 	local crun_pids=()
 	local recvtty_pids=()
@@ -112,13 +107,13 @@ function run_crun() {
 		recvtty_pids[${#recvtty_pids[@]}]=$!
 		sleep 0.1 # NOTE: This prevents crun from being executed before the socket is created.
 
-		#/usr/bin/time -v -o "${log_dir}/run${num}/${name}_${i}_${TIME}.time" "$crun" run ${name}-wasm-${i}
-		"$crun" run --console-socket="${HOME_DIR}/${name}_${i}_${TIME}.sock" ${name}_wasm_${i}_${TIME}  >> "${log_dir}/run${num}/${name}_${TIME}" &
+		/usr/bin/time -v -o "${log_dir}/run${num}/${name}_${i}_${TIME}.time" \
+			"$crun" run --console-socket="${HOME_DIR}/${name}_${i}_${TIME}.sock" ${name}_wasm_${i}_${TIME}  >> "${log_dir}/run${num}/${name}_${TIME}" &
 		echo "crun pid: $!"
 		crun_pids[${#crun_pids[@]}]=$!
 	done
 
-	echo "crun_pids: ${crun_pids[@]}"
+	echo -e "\ncrun_pids: ${crun_pids[@]}"
 	wait ${crun_pids[@]}
 
 	echo "recvtty_pids: ${recvtty_pids[@]}"
@@ -177,6 +172,12 @@ function benchmark_crun_with_multiple_wasm() {
 		run_crun_with_multiple_wasm $name 2
 		echo -e 'Run 3 programs\n'
 		run_crun_with_multiple_wasm $name 3
+		echo -e 'Run 4 programs\n'
+		run_crun_with_multiple_wasm $name 4
+		echo -e 'Run 8 programs\n'
+		run_crun_with_multiple_wasm $name 8
+		echo -e 'Run 12 programs\n'
+		run_crun_with_multiple_wasm $name 12
 	done
 }
 
@@ -211,7 +212,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 			for i in `seq -w ${N}`; do
 				TIME=$i
 				print_time $i
+				echo '==========================================================='
 				benchmark_crun
+				echo '==========================================================='
 			done
 			;;
 		'multiple_wasm')
@@ -220,7 +223,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 			for i in `seq -w ${N}`; do
 				TIME=$i
 				print_time $i
+				echo '==========================================================='
 				benchmark_crun_with_multiple_wasm
+				echo '==========================================================='
 			done
 			;;
 	esac
