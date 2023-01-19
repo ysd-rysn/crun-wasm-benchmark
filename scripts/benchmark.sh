@@ -186,13 +186,13 @@ function benchmark_crun_with_multiple_wasm() {
 function print_time() {
 	local time=$1
 	case "$time" in
-		'1')
+		*1)
 			echo -e "${time}st time\n"
 			;;
-		'2')
+		*2)
 			echo -e "${time}nd time\n"
 			;;
-		'3')
+		*3)
 			echo -e "${time}rd time\n"
 			;;
 		*)
