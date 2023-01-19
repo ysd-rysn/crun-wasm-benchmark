@@ -1,4 +1,4 @@
-.PHONY: usage configure build benchmark_single_wasm benchmark_multiple_wasm clean clean_result test_scripts
+.PHONY: usage configure build benchmark_single_wasm benchmark_multiple_wasm clean test_scripts
 
 usage:
 	@echo 'See README for usage.'

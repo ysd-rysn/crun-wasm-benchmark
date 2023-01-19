@@ -68,14 +68,16 @@ function prepare_bundle() {
 }
 
 function prepare_log_directory() {
-	if [ ! -d benchmark ]; then
+	if [ ! -d benchmark/crun ]; then
 		mkdir -p benchmark/crun
 		local name
 		for name in "${NAME[@]}"; do
 			local log_dir="$PWD/benchmark/crun/$name"
 			mkdir $log_dir
 		done
+	fi
 
+	if [ ! -d benchmark/crun_with_multiple_wasm ]; then
 		mkdir -p benchmark/crun_with_multiple_wasm
 		for name in "${NAME[@]}"; do
 			log_dir="$PWD/benchmark/crun_with_multiple_wasm/$name"
