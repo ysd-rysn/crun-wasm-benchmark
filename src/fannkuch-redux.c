@@ -124,9 +124,9 @@ int main(int argc, char **argv) {
   timersub(&tv_end, &tv_start, &tv_elapsed);
 
   // Print time.
-  printf("start time: %llu.%06llu\n", (ull)tv_start.tv_sec, (ull)tv_start.tv_usec);
-  printf("end time: %llu.%06llu\n", (ull)tv_end.tv_sec, (ull)tv_end.tv_usec);
-  printf("elapsed time: %llu.%06llu\n", (ull)tv_elapsed.tv_sec, (ull)tv_elapsed.tv_usec);
+  printf("app start time: %llu.%06llu\n", (ull)tv_start.tv_sec, (ull)tv_start.tv_usec);
+  printf("app end time: %llu.%06llu\n", (ull)tv_end.tv_sec, (ull)tv_end.tv_usec);
+  printf("app execution time: %llu.%06llu\n", (ull)tv_elapsed.tv_sec, (ull)tv_elapsed.tv_usec);
 
   return 0;
 }
