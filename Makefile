@@ -1,4 +1,4 @@
-.PHONY: usage configure build benchmark_single_wasm benchmark_multiple_wasm clean test_scripts
+.PHONY: usage configure build benchmark_single_wasm benchmark_multiple_wasm benchmark_native clean test_scripts
 
 usage:
 	@echo 'See README for usage.'
@@ -16,6 +16,10 @@ benchmark_single_wasm:
 benchmark_multiple_wasm:
 	@rm -rf ./benchmark/crun_with_multiple_wasm
 	@./scripts/benchmark.sh multiple_wasm $(N)
+
+benchmark_native:
+	@rm -rf ./benchmark/crun_native
+	@./scripts/benchmark.sh native $(N)
 
 clean:
 	@rm -ri ./build ./bin ./benchmark
