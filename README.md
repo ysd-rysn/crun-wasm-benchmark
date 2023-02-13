@@ -9,7 +9,7 @@ All benchmark C sources are coming from [The Computer Language Benchmarks Game](
 make configure
 ```
 
-2. Build WebAssembly.
+2. Build WebAssembly and native.
 ```
 make build
 ```
@@ -26,7 +26,7 @@ make build
 	sudo make benchmark_multiple_wasm N=1
 	```
 
-	- native (N is number of times to run the benchmark.)
+	- Native (N is number of times to run the benchmark.)
 	```
 	cd bundle_for_native
 	# Acquire a root filesystem from an existing Docker container (ubuntu in this example).
